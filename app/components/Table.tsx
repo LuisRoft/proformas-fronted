@@ -1,46 +1,92 @@
-export default function AnalysisTable({ result }: { result: any }) {
-  const lines = result.trim().split("\n");
+import React from "react";
+
+interface AnalysisTableProps {
+  result: string;
+}
+
+const AnalysisTable: React.FC<AnalysisTableProps> = ({ result }) => {
+  const tableContent = result.split("```")[1].replace("plaintext\n", "").trim();
+  const lines = tableContent.split("\n");
+
   const headers = lines[0]
     .split("|")
-    .map((header: any) => header.trim())
-    .filter((header: any) => header);
+    .map((header) => header.trim())
+    .filter((header) => header);
 
-  const dataRows = lines.slice(1).filter((row: string) => {
-    return !row.trim().startsWith("|--") && row.trim() !== "";
-  });
+  const dataRows = lines.slice(2).filter((row) => row.trim() !== "");
 
-  const rows = dataRows.map((row: any) =>
+  const rows = dataRows.map((row) =>
     row
       .split("|")
-      .map((cell: any) => cell.trim())
-      .filter((cell: any) => cell)
+      .map((cell) => cell.trim())
+      .filter((cell) => cell)
   );
 
+  // Función para encontrar el índice del precio más bajo
+  const findLowestPriceIndex = (row: string[]) => {
+    const priceIndices = headers.reduce((acc: number[], header, index) => {
+      if (header.toLowerCase().includes("unit price")) {
+        acc.push(index);
+      }
+      return acc;
+    }, []);
+
+    let lowestPrice = Infinity;
+    let lowestPriceIndex = -1;
+
+    priceIndices.forEach((index) => {
+      const price = parseFloat(row[index].replace(/[^0-9.-]+/g, ""));
+      if (!isNaN(price) && price < lowestPrice) {
+        lowestPrice = price;
+        lowestPriceIndex = index;
+      }
+    });
+
+    return lowestPriceIndex;
+  };
+
   return (
-    <table className="min-w-full bg-white border-collapse border border-gray-300">
-      <thead>
-        <tr>
-          {headers.map((header: any, index: any) => (
-            <th
-              key={index}
-              className="py-2 px-4 border border-gray-300 bg-gray-100"
-            >
-              {header}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row: any, rowIndex: any) => (
-          <tr key={rowIndex}>
-            {headers.map((_: any, cellIndex: any) => (
-              <td key={cellIndex} className="py-2 px-4 border border-gray-300">
-                {row[cellIndex] || "-"}
-              </td>
+    <div className="overflow-x-auto">
+      <table className="min-w-full bg-white border-collapse border border-gray-300">
+        <thead>
+          <tr>
+            {headers.map((header, index) => (
+              <th
+                key={index}
+                className="py-2 px-4 border border-gray-300 bg-gray-100 text-left text-sm font-semibold"
+              >
+                {header}
+              </th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {rows.map((row, rowIndex) => {
+            const lowestPriceIndex = findLowestPriceIndex(row);
+            return (
+              <tr
+                key={rowIndex}
+                className={rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"}
+              >
+                {row.map((cell, cellIndex) => (
+                  <td
+                    key={cellIndex}
+                    className={`py-2 px-4 border border-gray-300 text-sm ${
+                      cellIndex === lowestPriceIndex
+                        ? "bg-blue-500 font-bold"
+                        : ""
+                    }`}
+                  >
+                    {cell}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
-}
+};
+
+export default AnalysisTable;
