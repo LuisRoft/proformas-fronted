@@ -5,7 +5,20 @@ interface AnalysisTableProps {
 }
 
 const AnalysisTable: React.FC<AnalysisTableProps> = ({ result }) => {
-  const tableContent = result.split("```")[1].replace("plaintext\n", "").trim();
+  console.log(result);
+  const preprocessResult = (result: string) => {
+    if (!result.includes("```")) {
+      return "```\n" + result + "\n```";
+    }
+    return result;
+  };
+
+  const processedResult = preprocessResult(result);
+  console.log(processedResult);
+  const tableContent = processedResult
+    .split("```")[1]
+    .replace("plaintext\n", "")
+    .trim();
   const lines = tableContent.split("\n");
 
   const headers = lines[0]
