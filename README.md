@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Genesis App
 
-## Getting Started
+Genesis App es una aplicación web desarrollada con Next.js que permite a los usuarios subir imágenes de proformas, comparar los precios unitarios entre ellas y generar una tabla que muestra los precios más bajos.
 
-First, run the development server:
+## Características
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Subida de imágenes de proformas
+- Análisis y comparación de precios unitarios
+- Generación de tabla comparativa con resaltado de precios más bajos
+- Interfaz de usuario moderna y responsive con Tailwind CSS y PrimeReact
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Requisitos previos
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Asegúrate de tener instalado en tu sistema:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Node.js (versión 14.0 o superior)
+- npm /yarn (normalmente viene con Node.js)
 
-## Learn More
+## Instalación
 
-To learn more about Next.js, take a look at the following resources:
+1. Clona este repositorio:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```ssh
+   git clone https://github.com/LuisRoft/proformas-fronted.git
+   cd proformas-fronted
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+2. Instala las dependencias:
 
-## Deploy on Vercel
+   ```ssh
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Uso
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. Inicia el servidor de desarrollo:
+
+   ```ssh
+   npm run dev
+   ```
+
+2. Abre tu navegador y visita `http://localhost:3000`
+
+3. Sube las imágenes de las proformas utilizando la interfaz de la aplicación.
+
+4. La aplicación procesará las imágenes y generará una tabla comparativa con los precios unitarios más bajos resaltados.
+
+## Scripts disponibles
+
+- `npm run dev`: Inicia el servidor de desarrollo
+- `npm run build`: Construye la aplicación para producción
+- `npm start`: Inicia la aplicación en modo producción
+- `npm run lint`: Ejecuta el linter para verificar el código
+
+## Tecnologías utilizadas
+
+- [Next.js](https://nextjs.org/)
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [PrimeReact](https://www.primefaces.org/primereact/)
+
+## Contribución
+
+Si deseas contribuir al proyecto, por favor:
+
+1. Haz un fork del repositorio
+2. Crea una nueva rama (`git checkout -b feature/amazing-feature`)
+3. Haz commit de tus cambios (`git commit -m 'Add some amazing feature'`)
+4. Haz push a la rama (`git push origin feature/amazing-feature`)
+5. Abre un Pull Request
+
+## Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
