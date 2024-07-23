@@ -22,10 +22,9 @@ const AnalysisTable: React.FC<AnalysisTableProps> = ({ result }) => {
       .filter((cell) => cell)
   );
 
-  // Función para encontrar el índice del precio más bajo
-  const findLowestPriceIndex = (row: string[]) => {
+  const findLowestPriceIndex = (row: string[], headers: string[]) => {
     const priceIndices = headers.reduce((acc: number[], header, index) => {
-      if (header.toLowerCase().includes("unit price")) {
+      if (header.toLowerCase().includes("precio unitario")) {
         acc.push(index);
       }
       return acc;
@@ -35,7 +34,12 @@ const AnalysisTable: React.FC<AnalysisTableProps> = ({ result }) => {
     let lowestPriceIndex = -1;
 
     priceIndices.forEach((index) => {
-      const price = parseFloat(row[index].replace(/[^0-9.-]+/g, ""));
+      const priceString = row[index].replace(/[$*]/g, "");
+      const normalizedPrice = priceString.replace(",", ".");
+      const price = parseFloat(normalizedPrice);
+
+      console.log(price);
+
       if (!isNaN(price) && price < lowestPrice) {
         lowestPrice = price;
         lowestPriceIndex = index;
@@ -62,7 +66,7 @@ const AnalysisTable: React.FC<AnalysisTableProps> = ({ result }) => {
         </thead>
         <tbody>
           {rows.map((row, rowIndex) => {
-            const lowestPriceIndex = findLowestPriceIndex(row);
+            const lowestPriceIndex = findLowestPriceIndex(row, headers);
             return (
               <tr
                 key={rowIndex}
@@ -73,7 +77,7 @@ const AnalysisTable: React.FC<AnalysisTableProps> = ({ result }) => {
                     key={cellIndex}
                     className={`py-2 px-4 border border-gray-300 text-sm ${
                       cellIndex === lowestPriceIndex
-                        ? "bg-blue-500 font-bold"
+                        ? "bg-blue-500 font-bold text-white"
                         : ""
                     }`}
                   >
